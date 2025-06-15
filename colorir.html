@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <title>Aprendendo com as Cores</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      text-align: center;
+      background: #f8f8f8;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333;
+    }
+
+    .drawing-area {
+      margin: 20px auto;
+      width: 400px;
+    }
+
+    svg {
+      width: 100%;
+      border: 2px solid #ccc;
+      background: #fff;
+    }
+
+    .palette {
+      margin: 15px auto;
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      max-width: 400px;
+    }
+
+    .color {
+      width: 30px;
+      height: 30px;
+      margin: 5px;
+      border: 2px solid #444;
+      cursor: pointer;
+    }
+
+    .tools button {
+      margin: 5px;
+      padding: 10px 15px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+
+    .footer {
+      margin-top: 30px;
+      font-size: 14px;
+      color: #555;
+    }
+
+    .donation {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+
+    .qr {
+      margin-top: 10px;
+    }
+
+    a {
+      color: #0066cc;
+      text-decoration: none;
+    }
+
+    a:hover {
+      text-decoration: underline;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Aprendendo com as Cores</h1>
+  <p>Desenhos para colorir com a <strong><a href="https://globalplataformmf.github.io" target="_blank">GlobalPlatformMF</a></strong></p>
+
+  <div class="drawing-area">
+    <!-- SVG simples de um sol com nuvem -->
+    <svg id="svgDrawing" viewBox="0 0 200 200">
+      <circle cx="60" cy="60" r="30" stroke="#000" stroke-width="2" fill="white" />
+      <path d="M100,100 Q110,80 130,100 Q150,90 160,110 Q150,130 130,120 Q110,130 100,110 Z" stroke="#000" stroke-width="2" fill="white"/>
+    </svg>
+  </div>
+
+  <div class="palette" id="colorPalette"></div>
+
+  <div class="tools">
+    <button onclick="clearColors()">Apagar</button>
+    <button onclick="saveImage()">Salvar</button>
+    <button onclick="window.print()">Imprimir</button>
+    <button onclick="shareImage()">Compartilhar</button>
+  </div>
+
+  <div class="footer">
+    <p>Doações: <span class="donation">0x84f9dbe575fb83ad073741a387ed9e8e40dda999</span> (USDT BNB)</p>
+    <div class="qr">
+      <img src="https://api.qrserver.com/v1/create-qr-code/?data=0x84f9dbe575fb83ad073741a387ed9e8e40dda999&size=150x150" alt="QR Code para doações">
+    </div>
+  </div>
+
+  <script>
+    const colors = [
+      '#000000', '#FF0000', '#00FF00', '#0000FF',
+      '#FFFF00', '#FF00FF', '#00FFFF', '#FFFFFF',
+      '#FFA500', '#800080', '#808000', '#008080',
+      '#A52A2A', '#C0C0C0', '#008000', '#FFC0CB',
+      '#4682B4', '#B22222', '#DAA520', '#2E8B57',
+      '#DC143C', '#4B0082', '#D2691E', '#87CEEB'
+    ];
+
+    let currentColor = '#000000';
+
+    function initPalette() {
+      const palette = document.getElementById('colorPalette');
+      colors.forEach(color => {
+        const div = document.createElement('div');
+        div.className = 'color';
+        div.style.backgroundColor = color;
+        div.onclick = () => currentColor = color;
+        palette.appendChild(div);
+      });
+    }
+
+    function makeSVGColorable() {
+      const svg = document.getElementById('svgDrawing');
+      svg.querySelectorAll('[fill="white"]').forEach(el => {
+        el.style.cursor = 'pointer';
+        el.addEventListener('click', () => {
+          el.setAttribute('fill', currentColor);
+        });
+      });
+    }
+
+    function clearColors() {
+      const svg = document.getElementById('svgDrawing');
+      svg.querySelectorAll('[fill]').forEach(el => {
+        el.setAttribute('fill', 'white');
+      });
+    }
+
+    function saveImage() {
+      const svg = document.getElementById("svgDrawing");
+      const serializer = new XMLSerializer();
+      const source = serializer.serializeToString(svg);
+      const svgBlob = new Blob([source], {type:"image/svg+xml;charset=utf-8"});
+      const url = URL.createObjectURL(svgBlob);
+
+      const link = document.createElement("a");
+      link.href = url;
+      link.download = "desenho.svg";
+      link.click();
+      URL.revokeObjectURL(url);
+    }
+
+    function shareImage() {
+      alert("Compartilhamento SVG não é suportado diretamente em todos os navegadores.\nUse 'Salvar' para compartilhar manualmente.");
+    }
+
+    initPalette();
+    makeSVGColorable();
+  </script>
+
+</body>
+</html>
