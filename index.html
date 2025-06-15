@@ -1,109 +1,147 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-  <meta charset="UTF-8" />
-  <title>Aprendendo com as Cores</title>
-  <style>
-    body {
-      font-family: Arial, sans-serif;
-      background: #f8f8f8;
-      margin: 0;
-      padding: 0;
-      text-align: center;
-    }
-
-    .banner img {
-      width: 100%;
-      max-height: 250px;
-      object-fit: cover;
-      display: block;
-    }
-
-    h1 {
-      color: #333;
-      margin-top: 10px;
-    }
-
-    .drawing-area {
-      margin: 20px auto;
-      width: 400px;
-    }
-
-    svg {
-      width: 100%;
-      border: 2px solid #ccc;
-      background: #fff;
-    }
-
-    .message {
-      font-weight: bold;
-      margin: 10px 0;
-      color: #444;
-    }
-
-    .palette {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      margin: 10px auto;
-      max-width: 420px;
-    }
-
-    .color {
-      width: 25px;
-      height: 80px;
-      margin: 3px;
-      border-radius: 4px;
-      border: 1px solid #333;
-      cursor: pointer;
-    }
-
-    .tools button {
-      margin: 5px;
-      padding: 10px 15px;
-      font-weight: bold;
-      cursor: pointer;
-    }
-
-    .footer {
-      margin-top: 30px;
-      font-size: 14px;
-      color: #555;
-    }
-
-    .donation {
-      margin-top: 10px;
-      font-weight: bold;
-    }
-
-    .qr {
-      margin-top: 10px;
-    }
-
-    a {
-      color: #0066cc;
-      text-decoration: none;
-    }
-
-    a:hover {
-      text-decoration: underline;
-    }
-  </style>
+<meta charset="UTF-8" />
+<title>Aprendendo com as Cores</title>
+<style>
+  body {
+    font-family: Arial, sans-serif;
+    background: #f0f0f0; /* fundo claro */
+    margin: 0;
+    padding: 20px;
+    text-align: center;
+  }
+  h1 {
+    color: #333;
+  }
+  .banner {
+    width: 100%;
+    max-height: 250px;
+    overflow: hidden;
+    margin-bottom: 20px;
+  }
+  .banner img {
+    width: 100%;
+    height: 250px;
+    object-fit: cover;
+    display: block;
+  }
+  .drawing-area {
+    max-width: 600px;
+    margin: 0 auto 30px auto;
+    background: white;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0 0 5px #aaa;
+  }
+  svg {
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+  }
+  .palette {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    max-width: 600px;
+    margin: 10px auto 30px auto;
+  }
+  .color {
+    width: 30px;
+    height: 30px;
+    margin: 5px;
+    border: 2px solid #444;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .color.selected {
+    border: 3px solid #000;
+  }
+  .message {
+    font-size: 16px;
+    color: #444;
+    margin-bottom: 15px;
+    font-weight: bold;
+  }
+  .tools button {
+    margin: 5px;
+    padding: 10px 15px;
+    font-weight: bold;
+    cursor: pointer;
+  }
+  .footer {
+    font-size: 14px;
+    color: #555;
+  }
+  .donation {
+    font-weight: bold;
+  }
+  .qr img {
+    margin-top: 10px;
+    width: 150px;
+    height: 150px;
+  }
+</style>
 </head>
 <body>
 
   <div class="banner">
-    <img src="https://img.freepik.com/vetores-gratis/familia-feliz-desenhando-no-parque_1308-133991.jpg" alt="Banner - Família desenhando" />
+    <img src="banner.jpg" alt="Banner - Família desenhando" />
   </div>
 
   <h1>Aprendendo com as Cores</h1>
-  <p>Com a <strong><a href="https://globalplataformmf.github.io" target="_blank">GlobalPlatformMF</a></strong></p>
-
-  <div class="message" id="drawingMessage"></div>
+  <p>Desenhos para colorir com a <strong><a href="https://globalplataformmf.github.io" target="_blank">GlobalPlatformMF</a></strong></p>
 
   <div class="drawing-area">
-    <svg id="svgDrawing" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
-      <!-- Desenho carregado via JS -->
+    <div class="message" id="message">Clique no desenho para colorir!</div>
+
+    <svg id="svgDrawing" viewBox="0 0 600 400" xmlns="http://www.w3.org/2000/svg" >
+
+      <!-- Desenho 1: Borboleta -->
+      <g class="colorable" data-msg="Borboletas são símbolos de transformação e beleza!">
+        <ellipse cx="100" cy="200" rx="50" ry="80" fill="white" stroke="black" stroke-width="2"/>
+        <circle cx="100" cy="200" r="10" fill="white" stroke="black" stroke-width="2"/>
+        <path d="M70 120 Q90 180 70 240" fill="white" stroke="black" stroke-width="2"/>
+        <path d="M130 120 Q110 180 130 240" fill="white" stroke="black" stroke-width="2"/>
+      </g>
+
+      <!-- Desenho 2: Peixe -->
+      <g class="colorable" data-msg="Peixes nadam com liberdade e alegria!">
+        <ellipse cx="300" cy="180" rx="60" ry="40" fill="white" stroke="black" stroke-width="2"/>
+        <polygon points="360,180 410,160 410,200" fill="white" stroke="black" stroke-width="2"/>
+        <circle cx="270" cy="170" r="8" fill="white" stroke="black" stroke-width="2"/>
+      </g>
+
+      <!-- Desenho 3: Coruja -->
+      <g class="colorable" data-msg="Corujas representam sabedoria e mistério!">
+        <circle cx="500" cy="200" r="50" fill="white" stroke="black" stroke-width="2"/>
+        <circle cx="470" cy="185" r="12" fill="white" stroke="black" stroke-width="2"/>
+        <circle cx="530" cy="185" r="12" fill="white" stroke="black" stroke-width="2"/>
+        <polygon points="485,220 515,220 500,250" fill="white" stroke="black" stroke-width="2"/>
+      </g>
+
+      <!-- Desenho 4: Tartaruga -->
+      <g class="colorable" data-msg="Tartarugas simbolizam longevidade e paciência!">
+        <ellipse cx="100" cy="350" rx="70" ry="40" fill="white" stroke="black" stroke-width="2"/>
+        <circle cx="130" cy="350" r="15" fill="white" stroke="black" stroke-width="2"/>
+        <circle cx="70" cy="350" r="15" fill="white" stroke="black" stroke-width="2"/>
+        <path d="M60 320 Q100 340 140 320" fill="white" stroke="black" stroke-width="2"/>
+      </g>
+
+      <!-- Desenho 5: Coelho -->
+      <g class="colorable" data-msg="Coelhinhos são símbolos de ternura e agilidade!">
+        <ellipse cx="300" cy="350" rx="50" ry="70" fill="white" stroke="black" stroke-width="2"/>
+        <ellipse cx="280" cy="300" rx="15" ry="25" fill="white" stroke="black" stroke-width="2"/>
+        <ellipse cx="320" cy="300" rx="15" ry="25" fill="white" stroke="black" stroke-width="2"/>
+      </g>
+
+      <!-- Desenho 6: Pássaro -->
+      <g class="colorable" data-msg="Pássaros representam liberdade e alegria!">
+        <path d="M450 350 Q480 300 510 350 T570 350" fill="white" stroke="black" stroke-width="2"/>
+        <circle cx="480" cy="340" r="10" fill="white" stroke="black" stroke-width="2"/>
+        <circle cx="510" cy="340" r="10" fill="white" stroke="black" stroke-width="2"/>
+      </g>
+
     </svg>
   </div>
 
@@ -123,136 +161,82 @@
     </div>
   </div>
 
-  <script>
-    const colors = [
-      '#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF',
-      '#00FFFF', '#FFFFFF', '#FFA500', '#800080', '#808000', '#008080',
-      '#A52A2A', '#C0C0C0', '#008000', '#FFC0CB', '#4682B4', '#B22222',
-      '#DAA520', '#2E8B57', '#DC143C', '#4B0082', '#D2691E', '#87CEEB'
-    ];
+<script>
+  const colors = [
+    '#000000', '#FF0000', '#00FF00', '#0000FF',
+    '#FFFF00', '#FF00FF', '#00FFFF', '#FFFFFF',
+    '#FFA500', '#800080', '#808000', '#008080',
+    '#A52A2A', '#C0C0C0', '#008000', '#FFC0CB',
+    '#4682B4', '#B22222', '#DAA520', '#2E8B57',
+    '#DC143C', '#4B0082', '#D2691E', '#87CEEB'
+  ];
 
-    const drawings = [
-      {
-        svg: '<circle cx="100" cy="100" r="40" stroke="#000" stroke-width="2" fill="white"/>',
-        msg: "Você é uma estrela brilhando na natureza!"
-      },
-      {
-        svg: '<rect x="60" y="60" width="80" height="80" rx="10" stroke="#000" stroke-width="2" fill="white"/>',
-        msg: "Toda cor conta para criar um mundo lindo!"
-      },
-      {
-        svg: '<ellipse cx="100" cy="100" rx="60" ry="40" stroke="#000" stroke-width="2" fill="white"/>',
-        msg: "A imaginação é sua maior amiga!"
-      },
-      {
-        svg: '<path d="M100,40 Q120,70 100,100 Q80,70 100,40" stroke="#000" stroke-width="2" fill="white"/>',
-        msg: "Seu talento colore o mundo!"
-      },
-      {
-        svg: '<polygon points="100,30 120,90 60,90" stroke="#000" stroke-width="2" fill="white"/>',
-        msg: "Seja curioso como um passarinho!"
-      },
-      {
-        svg: '<path d="M60,120 Q100,60 140,120 Z" stroke="#000" stroke-width="2" fill="white"/>',
-        msg: "Você pode voar alto como uma borboleta!"
-      },
-      {
-        svg: '<path d="M70,70 Q100,30 130,70 Q100,110 70,70" stroke="#000" stroke-width="2" fill="white"/>',
-        msg: "Com amor, até um traço vira arte!"
-      },
-      {
-        svg: '<rect x="80" y="80" width="40" height="60" stroke="#000" stroke-width="2" fill="white"/>',
-        msg: "Seu mundo é feito de sonhos coloridos!"
-      },
-      {
-        svg: '<circle cx="70" cy="100" r="20" stroke="#000" stroke-width="2" fill="white"/><circle cx="130" cy="100" r="20" stroke="#000" stroke-width="2" fill="white"/>',
-        msg: "Seja gentil como um coelhinho!"
-      },
-      {
-        svg: '<path d="M100,50 Q110,90 90,90 Q100,70 100,50" stroke="#000" stroke-width="2" fill="white"/>',
-        msg: "Você cria beleza com cada cor!"
-      },
-      {
-        svg: '<polygon points="80,120 100,60 120,120" stroke="#000" stroke-width="2" fill="white"/>',
-        msg: "O mundo precisa da sua criatividade!"
-      },
-      {
-        svg: '<path d="M100,40 L120,90 L80,90 Z" stroke="#000" stroke-width="2" fill="white"/>',
-        msg: "Cada traço é um passo para um futuro lindo!"
-      }
-    ];
+  let currentColor = '#000000';
 
-    let currentColor = '#000000';
-    let currentIndex = 0;
+  function initPalette() {
+    const palette = document.getElementById('colorPalette');
+    colors.forEach(color => {
+      const div = document.createElement('div');
+      div.className = 'color';
+      div.style.backgroundColor = color;
+      div.onclick = () => {
+        currentColor = color;
+        document.querySelectorAll('.color').forEach(c => c.classList.remove('selected'));
+        div.classList.add('selected');
+      };
+      palette.appendChild(div);
+    });
+    // Seleciona a primeira cor por padrão
+    palette.firstChild.classList.add('selected');
+  }
 
-    function initPalette() {
-      const palette = document.getElementById('colorPalette');
-      colors.forEach(color => {
-        const div = document.createElement('div');
-        div.className = 'color';
-        div.style.backgroundColor = color;
-        div.onclick = () => {
-          currentColor = color;
-          // Highlight selected color
-          document.querySelectorAll('.color').forEach(c => c.style.borderColor = '#333');
-          div.style.borderColor = '#000';
-        };
-        palette.appendChild(div);
-      });
-    }
-
-    function makeSVGColorable() {
-      const svg = document.getElementById('svgDrawing');
-      svg.querySelectorAll('[fill="white"]').forEach(el => {
-        el.style.cursor = 'pointer';
-        el.onclick = () => {
+  function makeSVGColorable() {
+    const svg = document.getElementById('svgDrawing');
+    const message = document.getElementById('message');
+    svg.querySelectorAll('.colorable').forEach(group => {
+      group.style.cursor = 'pointer';
+      group.addEventListener('click', () => {
+        // Pinta todos os filhos do grupo
+        group.querySelectorAll('[fill]').forEach(el => {
           el.setAttribute('fill', currentColor);
-        };
+        });
+        // Mostra a mensagem da figura
+        const msg = group.getAttribute('data-msg');
+        if(msg) message.textContent = msg;
       });
-    }
+    });
+  }
 
-    function loadDrawing(index) {
-      const drawing = drawings[index];
-      const svg = document.getElementById('svgDrawing');
-      svg.innerHTML = drawing.svg;
-      document.getElementById('drawingMessage').textContent = drawing.msg;
-      makeSVGColorable();
-    }
+  function clearColors() {
+    const svg = document.getElementById('svgDrawing');
+    svg.querySelectorAll('[fill]').forEach(el => {
+      el.setAttribute('fill', 'white');
+    });
+    const message = document.getElementById('message');
+    message.textContent = 'Clique no desenho para colorir!';
+  }
 
-    function cycleDrawings() {
-      loadDrawing(currentIndex);
-      currentIndex = (currentIndex + 1) % drawings.length;
-    }
+  function saveImage() {
+    const svg = document.getElementById("svgDrawing");
+    const serializer = new XMLSerializer();
+    const source = serializer.serializeToString(svg);
+    const svgBlob = new Blob([source], {type:"image/svg+xml;charset=utf-8"});
+    const url = URL.createObjectURL(svgBlob);
 
-    function clearColors() {
-      const svg = document.getElementById('svgDrawing');
-      svg.querySelectorAll('[fill]').forEach(el => {
-        el.setAttribute('fill', 'white');
-      });
-    }
+    const link = document.createElement("a");
+    link.href = url;
+    link.download = "desenho.svg";
+    link.click();
+    URL.revokeObjectURL(url);
+  }
 
-    function saveImage() {
-      const svg = document.getElementById("svgDrawing");
-      const serializer = new XMLSerializer();
-      const source = serializer.serializeToString(svg);
-      const svgBlob = new Blob([source], {type:"image/svg+xml;charset=utf-8"});
-      const url = URL.createObjectURL(svgBlob);
-      const link = document.createElement("a");
-      link.href = url;
-      link.download = "desenho.svg";
-      link.click();
-      URL.revokeObjectURL(url);
-    }
+  function shareImage() {
+    alert("Compartilhamento SVG não é suportado diretamente em todos os navegadores.\nUse 'Salvar' para compartilhar manualmente.");
+  }
 
-    function shareImage() {
-      alert("Compartilhe salvando o desenho e enviando por mensagem!");
-    }
-
-    // Inicialização
-    initPalette();
-    cycleDrawings();
-    setInterval(cycleDrawings, 15000); // troca a cada 15 segundos
-  </script>
+  initPalette();
+  makeSVGColorable();
+</script>
 
 </body>
 </html>
