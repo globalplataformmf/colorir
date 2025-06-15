@@ -6,14 +6,22 @@
   <style>
     body {
       font-family: Arial, sans-serif;
-      text-align: center;
       background: #f8f8f8;
       margin: 0;
-      padding: 20px;
+      padding: 0;
+      text-align: center;
+    }
+
+    .banner img {
+      width: 100%;
+      max-height: 250px;
+      object-fit: cover;
+      display: block;
     }
 
     h1 {
       color: #333;
+      margin-top: 10px;
     }
 
     .drawing-area {
@@ -27,19 +35,26 @@
       background: #fff;
     }
 
+    .message {
+      font-weight: bold;
+      margin: 10px 0;
+      color: #444;
+    }
+
     .palette {
-      margin: 15px auto;
       display: flex;
       flex-wrap: wrap;
       justify-content: center;
-      max-width: 400px;
+      margin: 10px auto;
+      max-width: 420px;
     }
 
     .color {
-      width: 30px;
-      height: 30px;
-      margin: 5px;
-      border: 2px solid #444;
+      width: 25px;
+      height: 80px;
+      margin: 3px;
+      border-radius: 4px;
+      border: 1px solid #333;
       cursor: pointer;
     }
 
@@ -77,14 +92,18 @@
 </head>
 <body>
 
+  <div class="banner">
+    <img src="https://img.freepik.com/vetores-gratis/familia-feliz-desenhando-no-parque_1308-133991.jpg" alt="Banner - Família desenhando">
+  </div>
+
   <h1>Aprendendo com as Cores</h1>
-  <p>Desenhos para colorir com a <strong><a href="https://globalplataformmf.github.io" target="_blank">GlobalPlatformMF</a></strong></p>
+  <p>Com a <strong><a href="https://globalplataformmf.github.io" target="_blank">GlobalPlatformMF</a></strong></p>
+
+  <div class="message" id="drawingMessage"></div>
 
   <div class="drawing-area">
-    <!-- SVG simples de um sol com nuvem -->
     <svg id="svgDrawing" viewBox="0 0 200 200">
-      <circle cx="60" cy="60" r="30" stroke="#000" stroke-width="2" fill="white" />
-      <path d="M100,100 Q110,80 130,100 Q150,90 160,110 Q150,130 130,120 Q110,130 100,110 Z" stroke="#000" stroke-width="2" fill="white"/>
+      <!-- Desenhos serão inseridos via JS -->
     </svg>
   </div>
 
@@ -106,15 +125,65 @@
 
   <script>
     const colors = [
-      '#000000', '#FF0000', '#00FF00', '#0000FF',
-      '#FFFF00', '#FF00FF', '#00FFFF', '#FFFFFF',
-      '#FFA500', '#800080', '#808000', '#008080',
-      '#A52A2A', '#C0C0C0', '#008000', '#FFC0CB',
-      '#4682B4', '#B22222', '#DAA520', '#2E8B57',
-      '#DC143C', '#4B0082', '#D2691E', '#87CEEB'
+      '#000000', '#FF0000', '#00FF00', '#0000FF', '#FFFF00', '#FF00FF',
+      '#00FFFF', '#FFFFFF', '#FFA500', '#800080', '#808000', '#008080',
+      '#A52A2A', '#C0C0C0', '#008000', '#FFC0CB', '#4682B4', '#B22222',
+      '#DAA520', '#2E8B57', '#DC143C', '#4B0082', '#D2691E', '#87CEEB'
+    ];
+
+    const drawings = [
+      {
+        svg: '<circle cx="100" cy="100" r="40" stroke="#000" stroke-width="2" fill="white"/>',
+        msg: "Você é uma estrela brilhando na natureza!"
+      },
+      {
+        svg: '<rect x="60" y="60" width="80" height="80" rx="10" stroke="#000" stroke-width="2" fill="white"/>',
+        msg: "Toda cor conta para criar um mundo lindo!"
+      },
+      {
+        svg: '<ellipse cx="100" cy="100" rx="60" ry="40" stroke="#000" stroke-width="2" fill="white"/>',
+        msg: "A imaginação é sua maior amiga!"
+      },
+      {
+        svg: '<path d="M100,40 Q120,70 100,100 Q80,70 100,40" stroke="#000" stroke-width="2" fill="white"/>',
+        msg: "Seu talento colore o mundo!"
+      },
+      {
+        svg: '<polygon points="100,30 120,90 60,90" stroke="#000" stroke-width="2" fill="white"/>',
+        msg: "Seja curioso como um passarinho!"
+      },
+      {
+        svg: '<path d="M60,120 Q100,60 140,120 Z" stroke="#000" stroke-width="2" fill="white"/>',
+        msg: "Você pode voar alto como uma borboleta!"
+      },
+      {
+        svg: '<path d="M70,70 Q100,30 130,70 Q100,110 70,70" stroke="#000" stroke-width="2" fill="white"/>',
+        msg: "Com amor, até um traço vira arte!"
+      },
+      {
+        svg: '<rect x="80" y="80" width="40" height="60" stroke="#000" stroke-width="2" fill="white"/>',
+        msg: "Seu mundo é feito de sonhos coloridos!"
+      },
+      {
+        svg: '<circle cx="70" cy="100" r="20" stroke="#000" stroke-width="2" fill="white"/><circle cx="130" cy="100" r="20" stroke="#000" stroke-width="2" fill="white"/>',
+        msg: "Seja gentil como um coelhinho!"
+      },
+      {
+        svg: '<path d="M100,50 Q110,90 90,90 Q100,70 100,50" stroke="#000" stroke-width="2" fill="white"/>',
+        msg: "Você cria beleza com cada cor!"
+      },
+      {
+        svg: '<polygon points="80,120 100,60 120,120" stroke="#000" stroke-width="2" fill="white"/>',
+        msg: "O mundo precisa da sua criatividade!"
+      },
+      {
+        svg: '<path d="M100,40 L120,90 L80,90 Z" stroke="#000" stroke-width="2" fill="white"/>',
+        msg: "Cada traço é um passo para um futuro lindo!"
+      }
     ];
 
     let currentColor = '#000000';
+    let currentIndex = 0;
 
     function initPalette() {
       const palette = document.getElementById('colorPalette');
@@ -127,14 +196,23 @@
       });
     }
 
-    function makeSVGColorable() {
+    function loadDrawing(index) {
+      const drawing = drawings[index];
       const svg = document.getElementById('svgDrawing');
+      svg.innerHTML = drawing.svg;
+      document.getElementById('drawingMessage').textContent = drawing.msg;
+
       svg.querySelectorAll('[fill="white"]').forEach(el => {
         el.style.cursor = 'pointer';
         el.addEventListener('click', () => {
           el.setAttribute('fill', currentColor);
         });
       });
+    }
+
+    function cycleDrawings() {
+      loadDrawing(currentIndex);
+      currentIndex = (currentIndex + 1) % drawings.length;
     }
 
     function clearColors() {
@@ -150,7 +228,6 @@
       const source = serializer.serializeToString(svg);
       const svgBlob = new Blob([source], {type:"image/svg+xml;charset=utf-8"});
       const url = URL.createObjectURL(svgBlob);
-
       const link = document.createElement("a");
       link.href = url;
       link.download = "desenho.svg";
@@ -159,11 +236,13 @@
     }
 
     function shareImage() {
-      alert("Compartilhamento SVG não é suportado diretamente em todos os navegadores.\nUse 'Salvar' para compartilhar manualmente.");
+      alert("Compartilhe salvando o desenho e enviando por mensagem!");
     }
 
+    // Inicialização
     initPalette();
-    makeSVGColorable();
+    cycleDrawings();
+    setInterval(cycleDrawings, 15000); // troca a cada 15 segundos
   </script>
 
 </body>
